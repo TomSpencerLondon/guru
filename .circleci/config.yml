@@ -55,3 +55,12 @@ jobs:
       - run: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
       - run: pip install awsebcli
       - run: eb create memento-dev -r eu-central-1
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          - requires:
+              - build
