@@ -48,6 +48,9 @@ jobs:
           path: target/
 
   deploy:
-    - run: eb create mementor-dev -r eu-central-1
+    - run:
+        name: Deploy EB
+        command: |
+          eb create mementor-dev -r eu-central-1
 #        name: Deploy App to EB
 #        command: bash .elasticbeanstalk/deploy-to-eb.sh
