@@ -37,6 +37,7 @@ jobs:
 
       - run: mvn package
       - run: cd front-end && npm test
+      - run: mkdir target/.elasticbeanstalk/ && cp .elasticbeanstalk/config.yml target/.elasticbeanstalk/
 
       - store_test_results:
           path: target/surefire-reports
@@ -54,7 +55,16 @@ jobs:
     steps:
       - run: curl https://circleci.com/api/v1.1/project/github/codurance/guru/latest/artifacts?circle-token=$CIRCLE_TOKEN
       - run: sudo pip install awsebcli
-      - run: eb create memento-dev -r eu-central-1
+      - run:
+          name: Create AWS credentials manually
+          command: |
+            mkdir ~/.aws
+            touch ~/.aws/config
+            chmod 600 ~/.aws/config
+            echo "[profile eb-cli]" > ~/.aws/config
+            echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
+            echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
+      - run: eb create memento-dev -r eu-central-1 --profile eb-cli
 
 workflows:
   version: 2
@@ -63,4 +73,8 @@ workflows:
       - build
       - deploy:
           requires:
-              - build
+            - build
+#          filters:
+#            branches:
+#              only:
+#                - master
