@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 
 orbs:
   awseb-tools: paperspace/awseb-tools@0.2.0
@@ -11,7 +11,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-stretch-node
+      - image: circleci/openjdk:11-stretch-node-python
 
     working_directory: ~/repo
 
@@ -47,4 +47,7 @@ jobs:
       - store_artifacts:
           path: target/
 
-      - run: eb create mementor-dev
+  deploy:
+    - run: eb create mementor-dev -r eu-central-1
+#        name: Deploy App to EB
+#        command: bash .elasticbeanstalk/deploy-to-eb.sh
