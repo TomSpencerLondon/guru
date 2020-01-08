@@ -49,6 +49,4 @@ jobs:
 
 
   deploy:
-    - run:
-        name: Deploy App to EB
-        command: 'bash .elasticbeanstalk/deploy.sh'
+    - run: bash .elasticbeanstalk/deploy.sh
