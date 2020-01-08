@@ -4,9 +4,6 @@
 #
 version: 2.1
 
-orbs:
-  awseb-tools: paperspace/awseb-tools@0.2.0
-
 jobs:
   build:
     docker:
