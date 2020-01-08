@@ -49,4 +49,12 @@ jobs:
 
 
   deploy:
-    - run: bash .elasticbeanstalk/deploy.sh
+    docker:
+      - image: circleci/python:stretch
+
+    working_directory: ~/repo
+
+    steps:
+      - run: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
+      - run: pip install awsebcli
+      - run: eb create memento-dev -r eu-central-1
