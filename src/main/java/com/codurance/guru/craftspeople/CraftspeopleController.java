@@ -1,11 +1,10 @@
 package com.codurance.guru.craftspeople;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CraftspeopleController {
@@ -21,6 +20,12 @@ public class CraftspeopleController {
     @GetMapping("/craftspeople")
     public List<Craftsperson> retrieveAll() {
         return craftspeopleService.retrieveAllCraftsperson();
+    }
+
+    @PostMapping("/craftspeople/addmentee")
+    void setMentee(@RequestBody Map<String, String> mentorAndMenteesIds) {
+        craftspeopleService.setMentee(Integer.valueOf(mentorAndMenteesIds.get("mentorId")),
+                Integer.valueOf(mentorAndMenteesIds.get("menteeId")));
     }
 
 }
