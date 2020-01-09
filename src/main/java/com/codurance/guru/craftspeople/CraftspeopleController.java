@@ -26,6 +26,7 @@ public class CraftspeopleController {
     void setMentee(@RequestBody Map<String, String> mentorAndMenteesIds) {
         craftspeopleService.setMentee(Integer.valueOf(mentorAndMenteesIds.get("mentorId")),
                 Integer.valueOf(mentorAndMenteesIds.get("menteeId")));
+        //ffs
     }
 
 }
