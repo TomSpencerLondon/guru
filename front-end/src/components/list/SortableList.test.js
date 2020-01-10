@@ -8,4 +8,6 @@ describe("SortableList component", () => {
        const component = shallow(<SortableList/>);
        expect(component.exists()).toBe(true);
     });
+
+
 });
