@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -100,14 +100,13 @@ public class CraftspeopleControllerTest {
                 .extract()
                 .response();
 
-        Optional<Craftsperson> dbMentee = craftspeopleRepository.
-                findById(craftspeople.get(0).getId()).get().getMentees()
-                .stream().filter(current -> current.getId()
-                         == craftspeople.get(1).getId()).findFirst();
 
-        assertTrue(dbMentee.isPresent());
-        assertEquals(craftspeople.get(1).getId(), dbMentee.get().getId());
+        int testMenteeId = craftspeople.get(1).getId();
+        Craftsperson dbMentee = craftspeopleRepository.getOne(testMenteeId);
+
+        assertEquals(craftspeople.get(0).getId(), dbMentee.getMentor().get().getId());
     }
+
 
 
     private void given_two_craftspeople() {

@@ -1,12 +1,14 @@
 package com.codurance.guru.craftspeople;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@Transactional
 public class CraftspeopleController {
 
     @Autowired
@@ -26,7 +28,6 @@ public class CraftspeopleController {
     void setMentee(@RequestBody Map<String, String> mentorAndMenteesIds) {
         craftspeopleService.setMentee(Integer.valueOf(mentorAndMenteesIds.get("mentorId")),
                 Integer.valueOf(mentorAndMenteesIds.get("menteeId")));
-        //ffs
     }
 
 }

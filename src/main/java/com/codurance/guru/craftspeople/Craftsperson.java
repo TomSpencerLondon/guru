@@ -18,7 +18,7 @@ public class Craftsperson {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Craftsperson mentor;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mentor")
     private List<Craftsperson> mentees;
