@@ -5,6 +5,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 @Component
 public class CraftspeopleSampleData {
 
@@ -17,10 +21,10 @@ public class CraftspeopleSampleData {
         Craftsperson mashB = repository.save(new Craftsperson("Mashooq", "Badar"));
         Craftsperson sandroM = repository.save(new Craftsperson("Sandro", "Mancuso"));
         Craftsperson steveL = repository.save(new Craftsperson("Steve", "Lydford"));
-        Craftsperson chrisE = repository.save(new Craftsperson("Christopher", "Eyre", steveL));
-        Craftsperson liamG = repository.save(new Craftsperson("Liam", "Griffin-Jowett", chrisE));
-        Craftsperson chrisB = repository.save(new Craftsperson("Chris", "Bimson", sandroM));
-        Craftsperson neilK = repository.save(new Craftsperson("Neil", "Kidd", chrisB));
+        Craftsperson chrisE = repository.save(new Craftsperson("Christopher", "Eyre", steveL, Instant.ofEpochSecond(1500000000)));
+        Craftsperson liamG = repository.save(new Craftsperson("Liam", "Griffin-Jowett", chrisE, Instant.now()));
+        Craftsperson chrisB = repository.save(new Craftsperson("Chris", "Bimson", sandroM, makeLastMeeting(2019, 10, 20)));
+        Craftsperson neilK = repository.save(new Craftsperson("Neil", "Kidd", chrisB, makeLastMeeting(2019, 11, 25)));
         Craftsperson richW = repository.save(new Craftsperson("Richard", "Wild", steveL));
         Craftsperson jorgeG = repository.save(new Craftsperson("Jorge", "Gueorguiev", mashB));
         Craftsperson alfredoF = repository.save(new Craftsperson("Alfredo", "Fernández", sandroM));
@@ -94,5 +98,11 @@ public class CraftspeopleSampleData {
         repository.save(new Craftsperson("David", "Welch"));
         repository.save(new Craftsperson("Nichole", "Mellekas"));
 
+    }
+
+    public Instant makeLastMeeting(int year, int month, int day) {
+        return Instant.ofEpochSecond(
+                LocalDateTime.of(year, month, day, 1, 0)
+                        .toEpochSecond(ZoneOffset.UTC));
     }
 }
