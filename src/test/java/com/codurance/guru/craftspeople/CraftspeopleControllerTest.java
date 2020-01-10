@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -42,7 +44,8 @@ public class CraftspeopleControllerTest {
                 .then().assertThat()
                 .body("mentor.firstName", equalTo(mentor.getFirstName()))
                 .body("mentor.lastName", equalTo(mentor.getLastName()))
-                .body("mentor.id", equalTo(mentor.getId()));
+                .body("mentor.id", equalTo(mentor.getId()))
+                .body("lastMeeting", equalTo((int)savedCraftsperson.getLastMeeting().get().getEpochSecond()));
     }
 
     @Test
@@ -74,7 +77,7 @@ public class CraftspeopleControllerTest {
 
     private void given_a_craftsperson_with_a_mentor() {
         mentor = craftspeopleRepository.save(new Craftsperson("Jose", "Wenzel"));
-        savedCraftsperson = craftspeopleRepository.save(new Craftsperson("Arnaud", "CLAUDEL", mentor));
+        savedCraftsperson = craftspeopleRepository.save(new Craftsperson("Arnaud", "CLAUDEL", mentor, Instant.now()));
     }
 
     private void given_a_craftsperson_in_the_repository() {
